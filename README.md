@@ -25,7 +25,8 @@
 
 ## 🛠️ Installation
 
-```bash
+```
 git clone https://github.com/alicangnll/airdiscover-python.git
 cd airdiscover-python
 pip install -r requirements.txt
+```
