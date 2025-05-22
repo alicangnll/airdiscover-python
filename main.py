@@ -35,7 +35,7 @@ def handle_packet(packet):
                 print("   ⚠️ MAC address information not available (no Ether layer)")
 
 def main():
-    print("🛰️ listening to mDNS (AirDrop) over " + INTERFACE + " interface...\n")
+    print("🛰️  listening to mDNS (AirDrop) over " + INTERFACE + " interface...\n")
     try:
         sniff(
             iface=INTERFACE,
