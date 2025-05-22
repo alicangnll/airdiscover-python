@@ -9,7 +9,19 @@ import time
 from scapy.all import sniff, DNS, DNSQR, Ether
 import re, netifaces, sys
 
+class Colors:
+    RESET = "\033[0m"
+    RED = "\033[31m"
+    GREEN = "\033[32m"
+    YELLOW = "\033[33m"
+    BLUE = "\033[34m"
+    MAGENTA = "\033[35m"
+    CYAN = "\033[36m"
+    WHITE = "\033[37m"
+    BOLD = "\033[1m"
 
+    def print_colored(text, color):
+        print(f"{color}{text}{Colors.RESET}")
 
 class Main:
     @staticmethod
@@ -49,77 +61,77 @@ class macOS_Enum:
 
     @staticmethod
     def get_info(ip):
-        print(f"[INFO] {ip}: Information request is being sent...")
+        Colors.print_colored(f"[INFO] {ip}: Information request is being sent...", Colors.CYAN)
         try:
             url = f"http://{ip}:7000/info"
             response = requests.get(url, timeout=5)
             response.raise_for_status()
-            print(f"[SUCCESS] {ip}: Information received.")
+            Colors.print_colored(f"[SUCCESS] {ip}: Information received.", Colors.GREEN)
             return response.content  # Plist binary olarak döner
         except requests.exceptions.Timeout:
-            print(f"[TIMEOUT] {ip}: Timeout.")
+            Colors.print_colored(f"[TIMEOUT] {ip}: Timeout.", Colors.RED)
             return None
         except requests.exceptions.ConnectionError:
-            print(f"[CONNECTION ERROR] {ip}: Connection could not be established.")
+            Colors.print_colored(f"[CONNECTION ERROR] {ip}: Connection could not be established.", Colors.RED)
             return None
         except requests.exceptions.HTTPError as err:
-            print(f"[HTTP ERROR] {ip}: {err}")
+            Colors.print_colored(f"[HTTP ERROR] {ip}: {err}", Colors.RED)
             return None
         except Exception as e:
-            print(f"[ERROR] {ip}: Unknown error -> {e}")
+            Colors.print_colored(f"[ERROR] {ip}: Unknown error -> {e}", Colors.RED)
             return None
 
     @staticmethod
     def parser_data(ip):
-        print(f"[INFO] {ip}: Parsing plist data...")
+        Colors.print_colored(f"[INFO] {ip}: Parsing plist data...", Colors.CYAN)
         try:
             plist_raw = macOS_Enum.get_info(ip)
             if not plist_raw:
-                print(f"[WARN] {ip}: Data could not be retrieved, parsing is not possible.")
+                Colors.print_colored(f"[WARN] {ip}: Data could not be retrieved, parsing is not possible.", Colors.YELLOW)
                 return
             data = readPlistFromString(plist_raw)
 
-            print(f"[PARSED] {ip}: Device Name: {data.get('name')}")
-            print(f"[PARSED] {ip}: Model: {data.get('model')}")
-            print(f"[PARSED] {ip}: macAddress: {data.get('macAddress')}")
-            print(f"[PARSED] {ip}: OS Version: {data.get('osBuildVersion')}")
-            print(f"[PARSED] {ip}: Source Version: {data.get('sourceVersion')}")
-            print(f"[PARSED] {ip}: Sender IP and Port: {data.get('senderAddress')}")
-            print(f"[PARSED] {ip}: Device ID: {data.get('deviceID')}")
-            print(f"[PARSED] {ip}: HDR Support: {data.get('receiverHDRCapability')}")
-            print(f"[PARSED] {ip}: Screen Demo Mode: {data.get('screenDemoMode')}")
-            print(f"[PARSED] {ip}: Initial Volume: {data.get('initialVolume')}")
-            print(f"[PARSED] {ip}: Can Record Screen Stream: {data.get('canRecordScreenStream')}")
-            print(f"[PARSED] {ip}: KeepAlive Write to Body: {data.get('keepAliveSendStatsAsBody')}")
-            print(f"[PARSED] {ip}: Protocol Version: {data.get('protocolVersion')}")
-            print(f"[PARSED] {ip}: Volume Control Type: {data.get('volumeControlType')}")
-            print(f"[PARSED] {ip}: Status Flags: {data.get('statusFlags')}")
-            print(f"[PARSED] {ip}: FeaturesEx: {data.get('featuresEx')}")
-            print(f"[PARSED] {ip}: Features (int): {data.get('features')}")
-            print(f"[PARSED] {ip}: psi: {data.get('psi')}")
-            print(f"[PARSED] {ip}: pi: {data.get('pi')}")
+            Colors.print_colored(f"[PARSED] {ip}: Device Name: {data.get('name')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: Model: {data.get('model')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: macAddress: {data.get('macAddress')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: OS Version: {data.get('osBuildVersion')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: Source Version: {data.get('sourceVersion')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: Sender IP and Port: {data.get('senderAddress')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: Device ID: {data.get('deviceID')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: HDR Support: {data.get('receiverHDRCapability')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: Screen Demo Mode: {data.get('screenDemoMode')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: Initial Volume: {data.get('initialVolume')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: Can Record Screen Stream: {data.get('canRecordScreenStream')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: KeepAlive Write to Body: {data.get('keepAliveSendStatsAsBody')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: Protocol Version: {data.get('protocolVersion')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: Volume Control Type: {data.get('volumeControlType')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: Status Flags: {data.get('statusFlags')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: FeaturesEx: {data.get('featuresEx')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: Features (int): {data.get('features')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: psi: {data.get('psi')}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: pi: {data.get('pi')}", Colors.MAGENTA)
             pk_val = data.get('pk')
             if pk_val:
-                print(f"[PARSED] {ip}: pk (hex): {pk_val.hex()}")
+                Colors.print_colored(f"[PARSED] {ip}: pk (hex): {pk_val.hex()}", Colors.MAGENTA)
             else:
-                print(f"[PARSED] {ip}: pk: None")
-            print(f"[PARSED] {ip}: --- Supported Formats ---")
+                Colors.print_colored(f"[PARSED] {ip}: pk: None", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: --- Supported Formats ---", Colors.MAGENTA)
             for k, v in data.get("supportedFormats", {}).items():
-                print(f"  {k}: {v}")
+                Colors.print_colored(f"  {k}: {v}", Colors.MAGENTA)
 
-            print(f"[PARSED] {ip}: --- Extended Audio Formats ---")
+            Colors.print_colored(f"[PARSED] {ip}: --- Extended Audio Formats ---", Colors.MAGENTA)
             for k, v in data.get("supportedAudioFormatsExtended", {}).items():
-                print(f"  {k}: {v}")
+                Colors.print_colored(f"  {k}: {v}", Colors.MAGENTA)
 
-            print(f"[PARSED] {ip}: --- Playback Capabilities ---")
+            Colors.print_colored(f"[PARSED] {ip}: --- Playback Capabilities ---", Colors.MAGENTA)
             for k, v in data.get("playbackCapabilities", {}).items():
-                print(f"  {k}: {v}")
+                Colors.print_colored(f"  {k}: {v}", Colors.MAGENTA)
         except Exception as e:
-            print(f"[ERROR] {ip}: Unknown error -> {e}")
+            Colors.print_colored(f"[ERROR] {ip}: Unknown error -> {e}", Colors.RED)
 
     @staticmethod
     def ping_ip(ip):
-        print(f"[INFO] {ip}: Ping started...")
+        Colors.print_colored(f"[INFO] {ip}: Ping started...", Colors.CYAN)
         result = subprocess.run(
             ["ping", "-c", "1", "-W", "1", str(ip)],
             stdout=subprocess.DEVNULL,
@@ -129,7 +141,7 @@ class macOS_Enum:
 
     @staticmethod
     def get_mac(ip):
-        print(f"[INFO] {ip}: Retrieving MAC address...")
+        Colors.print_colored(f"[INFO] {ip}: Retrieving MAC address...", Colors.CYAN)
         try:
             arp_result = subprocess.check_output(["arp", "-n", str(ip)], text=True)
             mac_match = re.search(r"(([0-9a-f]{2}:){5}[0-9a-f]{2})", arp_result, re.I)
@@ -137,17 +149,17 @@ class macOS_Enum:
                 mac = mac_match.group(1).upper()
                 return mac
             else:
-                print(f"[FAIL] {ip}: MAC address not found.")
+                Colors.print_colored(f"[FAIL] {ip}: MAC address not found.", Colors.RED)
                 return None
         except subprocess.CalledProcessError:
-            print(f"[ERROR] {ip}: arp command could not be executed.")
+            Colors.print_colored(f"[ERROR] {ip}: arp command could not be executed.", Colors.RED)
             return None
 
     @staticmethod
     def is_apple_mac(mac):
         for oui in macOS_Enum.APPLE_OUIS:
             if mac.startswith(oui):
-                print(f"[INFO] {mac}: Apple device OUI detected.")
+                Colors.print_colored(f"[INFO] {mac}: Apple device OUI detected.", Colors.CYAN)
                 return True
         return False
 
@@ -156,20 +168,20 @@ class macOS_Enum:
         Main.print_banner()  # Eğer Main sınıfın varsa burayı açabilirsin
         network = ipaddress.ip_network(network_cidr, strict=False)
         found_devices = []
-        print(f"[START] Network scanning begins: {network_cidr}")
+        Colors.print_colored(f"[START] Network scanning begins: {network_cidr}", Colors.CYAN)
         for ip in network.hosts():
             if macOS_Enum.ping_ip(ip):
                 mac = macOS_Enum.get_mac(ip)
                 if mac and macOS_Enum.is_apple_mac(mac):
-                    print(f"[FOUND] Apple device found - IP: {ip}, MAC: {mac}\n")
+                    Colors.print_colored(f"[FOUND] Apple device found - IP: {ip}, MAC: {mac}\n", Colors.GREEN)
                     macOS_Enum.parser_data(ip)
-                    print(f"[INFO] 60 seconds to review the information\n")
+                    Colors.print_colored(f"[INFO] 60 seconds to review the information\n", Colors.GREEN)
                     time.sleep(60)
                     found_devices.append((str(ip), mac))
         if not found_devices:
-            print("[RESULT] Apple device not found.")
+            Colors.print_colored("[RESULT] Apple device not found.", Colors.CYAN)
         else:
-            print(f"[RESULT] Total number of Apple devices found : {len(found_devices)}")
+            Colors.print_colored(f"[RESULT] Total number of Apple devices found : {len(found_devices)}", Colors.CYAN)
         return found_devices
 
 class Apple_iPhone_Enum:
@@ -177,7 +189,7 @@ class Apple_iPhone_Enum:
         try:
             output = subprocess.check_output(["ifconfig"], text=True)
         except Exception as e:
-            print(f"Hata: {e}")
+            Colors.print_colored(f"Hata: {e}", Colors.RED)
             return None
         interfaces = []
         for line in output.splitlines():
@@ -210,27 +222,27 @@ class Apple_iPhone_Enum:
                     if adapter_mac_addr != packet[Ether].src or adapter_mac_addr is not None:
                         if packet[Ether].src not in veri:
                             veri.append(packet[Ether].src)
-                            print(f"\n📡 AirDrop Device Discovered!")
-                            print(f"   ✳️ Checked: {query_name}")
-                            print(f"   🟢 Source MAC : {packet[Ether].src}")
-                            print(f"   🔴 Destination MAC  : {packet[Ether].dst}")
+                            Colors.print_colored(f"\n📡 AirDrop Device Discovered!", Colors.GREEN)
+                            Colors.print_colored(f"   ✳️ Checked: {query_name}", Colors.GREEN)
+                            Colors.print_colored(f"   🟢 Source MAC : {packet[Ether].src}", Colors.GREEN)
+                            Colors.print_colored(f"   🔴 Destination MAC  : {packet[Ether].dst}", Colors.GREEN)
                         else:
-                            print(f"   🔴 ERROR  : Adapter not found!\n")
+                            Colors.print_colored(f"   🔴 ERROR  : Adapter not found!\n", Colors.RED)
                             sys.exit(0)
                 else:
-                    print("   ⚠️ MAC address information not available (no Ether layer)")
+                    Colors.print_colored("   ⚠️ MAC address information not available (no Ether layer)", Colors.RED)
 
     def main():
         Main.print_banner()
         INTERFACE = Apple_iPhone_Enum.find_awdl_interface()
         if INTERFACE is None:
-            print(f"   🔴 ERROR  : Adapter not found!\n")
+            Colors.print_colored(f"   🔴 ERROR  : Adapter not found!\n", Colors.RED)
         else:
-            print(f"\n📡 AWDL Adapter Name : " + INTERFACE)
+            Colors.print_colored(f"\n📡 AWDL Adapter Name : " + INTERFACE, Colors.CYAN)
             adapter_mac_addr = Apple_iPhone_Enum.get_mac_address(INTERFACE)
-            print("🛰️  listening to mDNS (AirDrop) over " + INTERFACE + " interface...\n")
+            Colors.print_colored("🛰️  listening to mDNS (AirDrop) over " + INTERFACE + " interface...\n", Colors.CYAN)
             try:
-                print(f"\n📡 AWDL Receiver MAC : " + adapter_mac_addr)
+                Colors.print_colored(f"\n📡 AWDL Receiver MAC : " + adapter_mac_addr, Colors.CYAN)
                 sniff(
                     iface=INTERFACE,
                     filter="udp port 5353",  # mDNS port
@@ -238,6 +250,6 @@ class Apple_iPhone_Enum:
                     store=0
                     )
             except PermissionError:
-                print("❌ This script must be run with root/sudo.")
+                Colors.print_colored("❌ This script must be run with root/sudo.", Colors.RED)
 
 
