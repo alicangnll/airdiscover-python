@@ -1,61 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-print("""
-    █████╗ ██╗██████╗ ██████╗ ██╗ ██████╗ ██████╗ ███████╗███████╗██████╗ 
-   ██╔══██╗██║██╔══██╗██╔══██╗██║██╔════╝ ██╔══██╗██╔════╝██╔════╝██╔══██╗
-   ███████║██║██║  ██║██████╔╝██║██║  ███╗██████╔╝█████╗  █████╗  ██████╔╝
-   ██╔══██║██║██║  ██║██╔══██╗██║██║   ██║██╔═══╝ ██╔══╝  ██╔══╝  ██╔═══╝ 
-   ██║  ██║██║██████╔╝██║  ██║██║╚██████╔╝██║     ███████╗███████╗██║     
-   ╚═╝  ╚═╝╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝     ╚══════╝╚══════╝╚═╝     
-                                                                          
-                      AirDiscover - Developed by Ali Can Gönüllü
-                  🔗 https://www.linkedin.com/in/alicangonullu/
+import argparse
+from class_applenum import Apple_iPhone_Enum, macOS_Enum
 
-""")
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Apple cihaz bulma ve ağ tarama aracı")
+    parser.add_argument(
+        "-m", "--mode",
+        choices=["iphone", "macos"],
+        required=True,
+        help="Çalışma modu: 'iphone' veya 'macos'"
+    )
+    parser.add_argument(
+        "-n", "--network",
+        type=str,
+        default="192.168.1.0/24",
+        help="Taranacak ağ aralığı (sadece 'macos' modunda kullanılır). Varsayılan: 192.168.1.0/24"
+    )
+    args = parser.parse_args()
 
-from scapy.all import sniff, DNS, DNSQR, Ether
-import re, netifaces
-
-INTERFACE = input("What is the name of your AWDL adapter (e.g. awdl0) : ")
-airdrop_pattern = re.compile(r"_airdrop\._tcp\.local", re.IGNORECASE)
-
-def get_mac_address(interface):
-    try:
-        addrs = netifaces.ifaddresses(interface)
-        mac = addrs[netifaces.AF_LINK][0]['addr']
-        return mac
-    except (ValueError, KeyError):
-        return None
-    
-
-adapter_mac_addr = get_mac_address(INTERFACE)
-
-def handle_packet(packet):
-    if packet.haslayer(DNS) and packet.haslayer(DNSQR):
-        query_name = packet[DNSQR].qname.decode(errors="ignore")
-        if re.search(airdrop_pattern, query_name):
-            if packet.haslayer(Ether):
-                if adapter_mac_addr != packet[Ether].src:
-                    print(f"\n📡 AirDrop Device Discovered!")
-                    print(f"   ✳️ Checked: {query_name}")
-                    print(f"   🟢 Source MAC : {packet[Ether].src}")
-                    print(f"   🔴 Destination MAC  : {packet[Ether].dst}")
-            else:
-                print("   ⚠️ MAC address information not available (no Ether layer)")
-
-def main():
-    print("🛰️  listening to mDNS (AirDrop) over " + INTERFACE + " interface...\n")
-    try:
-        print(f"\n📡 AWDL Receiver MAC : " + adapter_mac_addr)
-        sniff(
-            iface=INTERFACE,
-            filter="udp port 5353",  # mDNS port
-            prn=handle_packet,
-            store=0
-        )
-    except PermissionError:
-        print("❌ This script must be run with root/sudo.")
-
-if __name__ == '__main__':
-    main()
+    if args.mode == "iphone":
+        Apple_iPhone_Enum.main()
+    elif args.mode == "macos":
+        macOS_Enum.scan_network(args.network)
