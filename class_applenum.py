@@ -175,8 +175,8 @@ class macOS_Enum:
                 if mac and macOS_Enum.is_apple_mac(mac):
                     Colors.print_colored(f"[FOUND] Apple device found - IP: {ip}, MAC: {mac}\n", Colors.GREEN)
                     macOS_Enum.parser_data(ip)
-                    Colors.print_colored(f"[INFO] 60 seconds to review the information\n", Colors.GREEN)
-                    time.sleep(60)
+                    Colors.print_colored(f"[INFO] 10 seconds to review the information\n", Colors.GREEN)
+                    time.sleep(10)
                     found_devices.append((str(ip), mac))
         if not found_devices:
             Colors.print_colored("[RESULT] Apple device not found.", Colors.CYAN)
