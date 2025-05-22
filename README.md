@@ -1,4 +1,4 @@
-# 🚀 AirDiscover
+# 🚀 AirDiscover : Discover AirDrop devices!
 
 **AirDiscover** is an AirDrop discovery tool developed in Python.
 It listens to mDNS traffic on the `awdl0` interface on macOS systems and identifies devices broadcasting AirDrop services in the network.
