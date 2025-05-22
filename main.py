@@ -18,7 +18,6 @@ from scapy.all import sniff, DNS, DNSQR, Ether
 import re, netifaces
 
 INTERFACE = input("What is the name of your AWDL adapter (e.g. awdl0) : ")
-
 airdrop_pattern = re.compile(r"_airdrop\._tcp\.local", re.IGNORECASE)
 
 def get_mac_address(interface):
@@ -28,10 +27,12 @@ def get_mac_address(interface):
         return mac
     except (ValueError, KeyError):
         return None
+    
+
+adapter_mac_addr = get_mac_address(INTERFACE)
 
 def handle_packet(packet):
     if packet.haslayer(DNS) and packet.haslayer(DNSQR):
-        adapter_mac_addr = get_mac_address(INTERFACE)
         query_name = packet[DNSQR].qname.decode(errors="ignore")
         if re.search(airdrop_pattern, query_name):
             if packet.haslayer(Ether):
@@ -46,7 +47,6 @@ def handle_packet(packet):
 def main():
     print("🛰️  listening to mDNS (AirDrop) over " + INTERFACE + " interface...\n")
     try:
-        adapter_mac_addr = get_mac_address(INTERFACE)
         print(f"\n📡 AWDL Receiver MAC : " + adapter_mac_addr)
         sniff(
             iface=INTERFACE,
