@@ -9,7 +9,7 @@ import time
 from scapy.all import sniff, DNS, DNSQR, Ether
 import re, netifaces, sys
 
-# Apple OUI listesi (ilk 3 byte)
+
 
 class Main:
     @staticmethod
@@ -34,10 +34,18 @@ import time
 from biplist import readPlistFromString
 
 class macOS_Enum:
+    # Apple OUI listesi (ilk 3 byte)
     APPLE_OUIS = [
-        "00:1C:B3", "00:17:F2", "00:03:93", "FC:25:3F", "AC:87:A3", "28:CF:E9",
-        "F4:5C:89", "3C:07:54", "D8:30:62", "BC:65:9F", "A4:5E:60", "D0:11:E5"
+    "00:1C:B3", "00:17:F2", "00:03:93", "FC:25:3F", "AC:87:A3", "28:CF:E9",
+    "F4:5C:89", "3C:07:54", "D8:30:62", "BC:65:9F", "A4:5E:60", "D0:11:E5",
+    "00:25:00", "00:0A:27", "08:00:07", "00:0B:63", "74:E1:B6", "00:14:51",
+    "00:1F:F3", "84:38:35", "A8:20:66", "C4:2C:03", "AC:1B:FB", "00:03:0E",
+    "00:1D:4F", "00:1E:C2", "A0:14:3D", "F8:1A:67", "5C:02:72", "C0:EE:FB",
+    "5C:96:9D", "38:C9:E0", "00:23:32", "B8:17:C2", "B0:17:C2", "3C:5A:B4",
+    "A4:5E:60", "00:26:08", "78:31:C1", "00:26:B0", "60:03:08", "84:7A:88",
+    "7C:C3:A1", "D0:03:4B", "3C:22:FB", "74:4D:28"
     ]
+
 
     @staticmethod
     def get_info(ip):
