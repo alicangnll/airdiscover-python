@@ -23,6 +23,11 @@ Scripti çalıştırmak için terminalde aşağıdaki komutu kullanın: ```sudo 
 
 > ⚠️ `awdl0` arayüzü özel bir ağ arayüzüdür ve yalnızca macOS sistemlerinde bulunur. Bu nedenle, scripti çalıştırmak için macOS kullanmanız gerekmektedir.
 
+## Resimler
+
+![resim](https://github.com/user-attachments/assets/61ebd5ad-3915-4d23-8212-626768ed3b12)
+
+
 ## 📄 Lisans
 Bu proje [Apache 2.0 Lisansı](https://www.apache.org/licenses/LICENSE-2.0) ile lisanslanmıştır.
 
