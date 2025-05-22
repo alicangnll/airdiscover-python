@@ -1,40 +1,31 @@
-# 🚀 AirDiscover : Discover AirDrop devices!
+# 🍏 AirDiscover - Apple Device Discovery and Network Scanning Tool 🚀
 
-**AirDiscover** is an AirDrop discovery tool developed in Python.
-It listens to mDNS traffic on the `awdl0` interface on macOS systems and identifies devices broadcasting AirDrop services in the network.
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Ali%20Can%20Gönüllü-blue)](https://www.linkedin.com/in/alicangonullu/)
 
-![banner](https://github.com/user-attachments/assets/3bff818e-90a6-4de1-8870-33ec194625fd)
+![banner](https://github.com/user-attachments/assets/45466523-feca-49c6-8395-3875432947d1)
 
+---
 
-## 🧰 Features
+## 📖 About the Project
 
-* 📡 Listens for mDNS (UDP 5353) traffic over the `awdl0` interface
-* 🔍 Detects DNS queries related to `_airdrop._tcp.local`
-* 🖥️ Displays source and destination MAC addresses
-* 📝 Provides real-time terminal output
+**AirDiscover** is a Python-based tool designed to discover Apple devices (macOS and iPhone) on your local network and gather detailed information about them. It identifies Apple devices by detecting MAC addresses using their OUI (Organizationally Unique Identifier) and retrieves IP addresses along with system details.
 
-## ⚙️ Installation
+---
 
-1. Ensure you have Python 3.x installed.
-2. Install the required Python package: ```pip3 install scapy```
+## ✨ Features
 
-## 🚀 Usage
+- 🔍 Scan for macOS and iPhone devices on the network  
+- 🍎 Filter devices based on Apple OUI prefixes  
+- 📋 Extract detailed plist-based information from devices  
+- 🌐 Customizable network range for scanning  
+- 🛠️ Command-line interface with argparse support  
+- 🛡️ Robust error handling and informative logging  
 
-Run the script in your terminal using: ```sudo python3 main.py``` and open "AirDrop" on Finder
+---
 
-> ⚠️ The `awdl0` interface is a special wireless interface available only on macOS. Make sure you're using a macOS system.
+## 🛠️ Installation
 
-## Pictures
-![resim](https://github.com/user-attachments/assets/037f41e1-c53b-46fb-a3a9-bef665188307)
-
-
-## 📄 License
-
-This project is licensed under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0).
-
-## 🙋‍♂️ Author
-
-**Ali Can Gönüllü**
-
-* 🌐 [LinkedIn](https://www.linkedin.com/in/alicangonullu/)
-* 💻 [GitHub](https://github.com/alicangnll)
+```bash
+git clone https://github.com/alicangnll/airdiscover-python.git
+cd airdiscover-python
+pip install -r requirements.txt
