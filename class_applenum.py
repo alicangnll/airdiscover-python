@@ -41,50 +41,50 @@ class macOS_Enum:
 
     @staticmethod
     def get_info(ip):
-        print(f"[INFO] {ip}: Bilgi alma isteği gönderiliyor...")
+        print(f"[INFO] {ip}: Information request is being sent...")
         try:
             url = f"http://{ip}:7000/info"
             response = requests.get(url, timeout=5)
             response.raise_for_status()
-            print(f"[SUCCESS] {ip}: Bilgi alındı.")
+            print(f"[SUCCESS] {ip}: Information received.")
             return response.content  # Plist binary olarak döner
         except requests.exceptions.Timeout:
-            print(f"[TIMEOUT] {ip}: Zaman aşımı.")
+            print(f"[TIMEOUT] {ip}: Timeout.")
             return None
         except requests.exceptions.ConnectionError:
-            print(f"[CONNECTION ERROR] {ip}: Bağlantı kurulamadı.")
+            print(f"[CONNECTION ERROR] {ip}: Connection could not be established.")
             return None
         except requests.exceptions.HTTPError as err:
             print(f"[HTTP ERROR] {ip}: {err}")
             return None
         except Exception as e:
-            print(f"[ERROR] {ip}: Bilinmeyen hata -> {e}")
+            print(f"[ERROR] {ip}: Unknown error -> {e}")
             return None
 
     @staticmethod
     def parser_data(ip):
-        print(f"[INFO] {ip}: Plist verisi çözümleniyor...")
+        print(f"[INFO] {ip}: Parsing plist data...")
         try:
             plist_raw = macOS_Enum.get_info(ip)
             if not plist_raw:
-                print(f"[WARN] {ip}: Veri alınamadı, parse yapılamıyor.")
+                print(f"[WARN] {ip}: Data could not be retrieved, parsing is not possible.")
                 return
             data = readPlistFromString(plist_raw)
 
-            print(f"[PARSED] {ip}: Cihaz Adı: {data.get('name')}")
+            print(f"[PARSED] {ip}: Device Name: {data.get('name')}")
             print(f"[PARSED] {ip}: Model: {data.get('model')}")
             print(f"[PARSED] {ip}: macAddress: {data.get('macAddress')}")
-            print(f"[PARSED] {ip}: OS Sürümü: {data.get('osBuildVersion')}")
-            print(f"[PARSED] {ip}: Kaynak Sürüm: {data.get('sourceVersion')}")
-            print(f"[PARSED] {ip}: Sender IP ve Port: {data.get('senderAddress')}")
-            print(f"[PARSED] {ip}: Cihaz ID: {data.get('deviceID')}")
-            print(f"[PARSED] {ip}: HDR Desteği: {data.get('receiverHDRCapability')}")
-            print(f"[PARSED] {ip}: Screen Demo Modu: {data.get('screenDemoMode')}")
-            print(f"[PARSED] {ip}: Başlangıç Sesi: {data.get('initialVolume')}")
-            print(f"[PARSED] {ip}: Ekran Kaydı Yapabilir mi: {data.get('canRecordScreenStream')}")
-            print(f"[PARSED] {ip}: KeepAlive Gövdeye Yazılır mı: {data.get('keepAliveSendStatsAsBody')}")
-            print(f"[PARSED] {ip}: Protokol Sürümü: {data.get('protocolVersion')}")
-            print(f"[PARSED] {ip}: Ses Kontrol Tipi: {data.get('volumeControlType')}")
+            print(f"[PARSED] {ip}: OS Version: {data.get('osBuildVersion')}")
+            print(f"[PARSED] {ip}: Source Version: {data.get('sourceVersion')}")
+            print(f"[PARSED] {ip}: Sender IP and Port: {data.get('senderAddress')}")
+            print(f"[PARSED] {ip}: Device ID: {data.get('deviceID')}")
+            print(f"[PARSED] {ip}: HDR Support: {data.get('receiverHDRCapability')}")
+            print(f"[PARSED] {ip}: Screen Demo Mode: {data.get('screenDemoMode')}")
+            print(f"[PARSED] {ip}: Initial Volume: {data.get('initialVolume')}")
+            print(f"[PARSED] {ip}: Can Record Screen Stream: {data.get('canRecordScreenStream')}")
+            print(f"[PARSED] {ip}: KeepAlive Write to Body: {data.get('keepAliveSendStatsAsBody')}")
+            print(f"[PARSED] {ip}: Protocol Version: {data.get('protocolVersion')}")
+            print(f"[PARSED] {ip}: Volume Control Type: {data.get('volumeControlType')}")
             print(f"[PARSED] {ip}: Status Flags: {data.get('statusFlags')}")
             print(f"[PARSED] {ip}: FeaturesEx: {data.get('featuresEx')}")
             print(f"[PARSED] {ip}: Features (int): {data.get('features')}")
@@ -95,23 +95,22 @@ class macOS_Enum:
                 print(f"[PARSED] {ip}: pk (hex): {pk_val.hex()}")
             else:
                 print(f"[PARSED] {ip}: pk: None")
-            print(f"\n[PARSED] {ip}: --- Desteklenen Formatlar ---")
+            print(f"[PARSED] {ip}: --- Supported Formats ---")
             for k, v in data.get("supportedFormats", {}).items():
                 print(f"  {k}: {v}")
 
-            print(f"\n[PARSED] {ip}: --- Genişletilmiş Ses Formatları ---")
+            print(f"[PARSED] {ip}: --- Extended Audio Formats ---")
             for k, v in data.get("supportedAudioFormatsExtended", {}).items():
                 print(f"  {k}: {v}")
 
-            print(f"\n[PARSED] {ip}: --- Playback Özellikleri ---")
+            print(f"[PARSED] {ip}: --- Playback Capabilities ---")
             for k, v in data.get("playbackCapabilities", {}).items():
                 print(f"  {k}: {v}")
         except Exception as e:
-            print(f"[ERROR] {ip}: Hatalı plist verisi -> {e}")
+            print(f"[ERROR] {ip}: Unknown error -> {e}")
 
     @staticmethod
     def ping_ip(ip):
-        print(f"[INFO] {ip}: Ping atılıyor...")
         result = subprocess.run(
             ["ping", "-c", "1", "-W", "1", str(ip)],
             stdout=subprocess.DEVNULL,
@@ -121,7 +120,7 @@ class macOS_Enum:
 
     @staticmethod
     def get_mac(ip):
-        print(f"[INFO] {ip}: MAC adresi alınıyor...")
+        print(f"[INFO] {ip}: Retrieving MAC address...")
         try:
             arp_result = subprocess.check_output(["arp", "-n", str(ip)], text=True)
             mac_match = re.search(r"(([0-9a-f]{2}:){5}[0-9a-f]{2})", arp_result, re.I)
@@ -129,17 +128,17 @@ class macOS_Enum:
                 mac = mac_match.group(1).upper()
                 return mac
             else:
-                print(f"[FAIL] {ip}: MAC adresi bulunamadı.")
+                print(f"[FAIL] {ip}: MAC address not found.")
                 return None
         except subprocess.CalledProcessError:
-            print(f"[ERROR] {ip}: arp komutu çalıştırılamadı.")
+            print(f"[ERROR] {ip}: arp command could not be executed.")
             return None
 
     @staticmethod
     def is_apple_mac(mac):
         for oui in macOS_Enum.APPLE_OUIS:
             if mac.startswith(oui):
-                print(f"[INFO] {mac}: Apple cihaz OUI'si tespit edildi.")
+                print(f"[INFO] {mac}: Apple device OUI detected.")
                 return True
         return False
 
@@ -148,20 +147,20 @@ class macOS_Enum:
         Main.print_banner()  # Eğer Main sınıfın varsa burayı açabilirsin
         network = ipaddress.ip_network(network_cidr, strict=False)
         found_devices = []
-        print(f"[START] Ağ taraması başlıyor: {network_cidr}")
+        print(f"[START] Network scanning begins: {network_cidr}")
         for ip in network.hosts():
             if macOS_Enum.ping_ip(ip):
                 mac = macOS_Enum.get_mac(ip)
                 if mac and macOS_Enum.is_apple_mac(mac):
-                    print(f"[FOUND] Apple cihaz bulundu - IP: {ip}, MAC: {mac}\n")
+                    print(f"[FOUND] Apple device found - IP: {ip}, MAC: {mac}\n")
                     macOS_Enum.parser_data(ip)
-                    print(f"[INFO] Bilgileri incelemeniz için 60 saniye bekleniyor\n")
+                    print(f"[INFO] 60 seconds to review the information\n")
                     time.sleep(60)
                     found_devices.append((str(ip), mac))
         if not found_devices:
-            print("[RESULT] Apple cihaz bulunamadı.")
+            print("[RESULT] Apple device not found.")
         else:
-            print(f"[RESULT] Toplam bulunan Apple cihaz sayısı: {len(found_devices)}")
+            print(f"[RESULT] Total number of Apple devices found : {len(found_devices)}")
         return found_devices
 
 class Apple_iPhone_Enum:
