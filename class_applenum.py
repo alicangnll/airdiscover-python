@@ -119,6 +119,7 @@ class macOS_Enum:
 
     @staticmethod
     def ping_ip(ip):
+        print(f"[INFO] {ip}: Ping started...")
         result = subprocess.run(
             ["ping", "-c", "1", "-W", "1", str(ip)],
             stdout=subprocess.DEVNULL,
