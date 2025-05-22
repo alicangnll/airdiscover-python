@@ -20,7 +20,7 @@ It listens to mDNS traffic on the `awdl0` interface on macOS systems and identif
 
 ## 🚀 Usage
 
-Run the script in your terminal using: ```sudo python3 main.py```
+Run the script in your terminal using: ```sudo python3 main.py``` and open "AirDrop" on Finder
 
 > ⚠️ The `awdl0` interface is a special wireless interface available only on macOS. Make sure you're using a macOS system.
 
