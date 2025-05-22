@@ -50,13 +50,16 @@ class macOS_Enum:
             return response.content  # Plist binary olarak döner
         except requests.exceptions.Timeout:
             print(f"[TIMEOUT] {ip}: Zaman aşımı.")
+            return None
         except requests.exceptions.ConnectionError:
             print(f"[CONNECTION ERROR] {ip}: Bağlantı kurulamadı.")
+            return None
         except requests.exceptions.HTTPError as err:
             print(f"[HTTP ERROR] {ip}: {err}")
+            return None
         except Exception as e:
             print(f"[ERROR] {ip}: Bilinmeyen hata -> {e}")
-        return None
+            return None
 
     @staticmethod
     def parser_data(ip):
@@ -142,7 +145,7 @@ class macOS_Enum:
 
     @staticmethod
     def scan_network(network_cidr):
-        # Main.print_banner()  # Eğer Main sınıfın varsa burayı açabilirsin
+        Main.print_banner()  # Eğer Main sınıfın varsa burayı açabilirsin
         network = ipaddress.ip_network(network_cidr, strict=False)
         found_devices = []
         print(f"[START] Ağ taraması başlıyor: {network_cidr}")
