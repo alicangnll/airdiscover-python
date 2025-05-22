@@ -24,6 +24,10 @@ Run the script in your terminal using: ```sudo python3 main.py```
 
 > ⚠️ The `awdl0` interface is a special wireless interface available only on macOS. Make sure you're using a macOS system.
 
+## Pictures
+![resim](https://github.com/user-attachments/assets/037f41e1-c53b-46fb-a3a9-bef665188307)
+
+
 ## 📄 License
 
 This project is licensed under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0).
