@@ -27,8 +27,12 @@ pip install -r requirements.txt
 ````
 
 ## ✨ Pictures
+
+### macOS Scanning
 ![scr1](https://github.com/user-attachments/assets/64bf044a-21c9-42fe-8ce6-02f259d2081b)
 
+### iPhone Scanning
+![scr2](https://github.com/user-attachments/assets/7dea57f9-9324-4785-9877-b62d50ed2960)
 
 ## 🚀 Usage
 
