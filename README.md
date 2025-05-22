@@ -4,13 +4,10 @@
 
 ![banner](https://github.com/user-attachments/assets/45466523-feca-49c6-8395-3875432947d1)
 
----
-
 ## 📖 About the Project
 
-**AirDiscover** is a Python-based tool designed to discover Apple devices (macOS and iPhone) on your local network and gather detailed information about them. It identifies Apple devices by detecting MAC addresses using their OUI (Organizationally Unique Identifier) and retrieves IP addresses along with system details.
-
----
+**AirDiscover** is a Python-based tool designed to discover Apple devices (macOS and iPhone) on your local network and gather detailed information about them.  
+It identifies Apple devices by detecting MAC addresses using their OUI (Organizationally Unique Identifier) and retrieves IP addresses along with system details.
 
 ## ✨ Features
 
@@ -21,12 +18,44 @@
 - 🛠️ Command-line interface with argparse support  
 - 🛡️ Robust error handling and informative logging  
 
----
-
 ## 🛠️ Installation
 
-```
+```bash
 git clone https://github.com/alicangnll/airdiscover-python.git
 cd airdiscover-python
 pip install -r requirements.txt
+````
+
+## 🚀 Usage
+
+### ❓ Help Menu
+
+```bash
+python3 main.py -h
 ```
+
+### 💡 Example Commands
+
+* 📱 Scan for iPhone devices:
+
+```bash
+python3 main.py -i iphone
+```
+
+* 💻 Scan for macOS devices in a specified network range:
+
+```bash
+python3 main.py -i macos -m 192.168.1.0/24
+```
+
+> ⚠️ *Note: The network range parameter (`-m`) is only used in `macos` mode.*
+
+
+## 👨‍💻 Developer
+
+Ali Can Gönüllü
+🔗 [LinkedIn Profile](https://www.linkedin.com/in/alicangonullu/)
+
+## 📄 License
+
+This project is licensed under the Apache 2 License. See the `LICENSE` file for details.
