@@ -1,4 +1,4 @@
-# 🚀 AirDiscover
+# 🚀 AirDiscover : AirDrop Cihazları Keşfet!
 
 **AirDiscover**, Python ile geliştirilmiş bir AirDrop keşif aracıdır. Bu araç, macOS sistemlerinde `awdl0` arayüzü üzerinden mDNS trafiğini dinleyerek, ağdaki AirDrop cihazlarını tespit eder.
 
