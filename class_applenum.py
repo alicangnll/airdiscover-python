@@ -57,13 +57,12 @@ class macOS_Enum:
     "A4:5E:60", "00:26:08", "78:31:C1", "00:26:B0", "60:03:08", "84:7A:88",
     "7C:C3:A1", "D0:03:4B", "3C:22:FB", "74:4D:28"
     ]
-
-
+        
     @staticmethod
-    def get_info(ip):
+    def get_info(ip, port=7000):
         Colors.print_colored(f"[INFO] {ip}: Information request is being sent...", Colors.CYAN)
         try:
-            url = f"http://{ip}:7000/info"
+            url = f"http://{ip}:{port}/info"
             response = requests.get(url, timeout=5)
             response.raise_for_status()
             Colors.print_colored(f"[SUCCESS] {ip}: Information received.", Colors.GREEN)
@@ -90,7 +89,6 @@ class macOS_Enum:
                 Colors.print_colored(f"[WARN] {ip}: Data could not be retrieved, parsing is not possible.", Colors.YELLOW)
                 return
             data = readPlistFromString(plist_raw)
-
             Colors.print_colored(f"[PARSED] {ip}: Device Name: {data.get('name')}", Colors.MAGENTA)
             Colors.print_colored(f"[PARSED] {ip}: Model: {data.get('model')}", Colors.MAGENTA)
             Colors.print_colored(f"[PARSED] {ip}: macAddress: {data.get('macAddress')}", Colors.MAGENTA)
@@ -126,6 +124,11 @@ class macOS_Enum:
             Colors.print_colored(f"[PARSED] {ip}: --- Playback Capabilities ---", Colors.MAGENTA)
             for k, v in data.get("playbackCapabilities", {}).items():
                 Colors.print_colored(f"  {k}: {v}", Colors.MAGENTA)
+            Colors.print_colored(f"[PARSED] {ip}: --- Vulnerabilities ---", Colors.RED)
+            if tuple(int(x) for x in data.get('sourceVersion').split('.'))  < tuple(int(x) for x in "860.7.1".split('.')):
+                Colors.print_colored(f"[VULNERABLE] {ip}: Potentially AirPlay RCE (CVE-2025-24132) Detected (AirPlay Version : {data.get('sourceVersion')})", Colors.RED)
+            else:
+                Colors.print_colored(f"[SECURE] {ip}: AirPlay RCE (CVE-2025-24132) Not Found. System Update! (AirPlay Version : {data.get('sourceVersion')})", Colors.GREEN)
         except Exception as e:
             Colors.print_colored(f"[ERROR] {ip}: Unknown error -> {e}", Colors.RED)
 
@@ -166,23 +169,37 @@ class macOS_Enum:
     @staticmethod
     def scan_network(network_cidr):
         Main.print_banner()  # Eğer Main sınıfın varsa burayı açabilirsin
-        network = ipaddress.ip_network(network_cidr, strict=False)
         found_devices = []
-        Colors.print_colored(f"[START] Network scanning begins: {network_cidr}", Colors.CYAN)
-        for ip in network.hosts():
-            if macOS_Enum.ping_ip(ip):
-                mac = macOS_Enum.get_mac(ip)
+        if network_cidr in "/":
+            network = ipaddress.ip_network(network_cidr, strict=False)
+            Colors.print_colored(f"[START] Network scanning begins: {network_cidr}", Colors.CYAN)
+            for ip in network.hosts():
+                if macOS_Enum.ping_ip(ip):
+                    mac = macOS_Enum.get_mac(ip)
+                    if mac and macOS_Enum.is_apple_mac(mac):
+                        Colors.print_colored(f"[FOUND] Apple device found - IP: {ip}, MAC: {mac}\n", Colors.GREEN)
+                        macOS_Enum.parser_data(ip)
+                        Colors.print_colored(f"[INFO] 10 seconds to review the information\n", Colors.GREEN)
+                        time.sleep(10)
+                        found_devices.append((str(ip), mac))
+            if not found_devices:
+                Colors.print_colored("[RESULT] Apple device not found.", Colors.CYAN)
+            else:
+                Colors.print_colored(f"[RESULT] Total number of Apple devices found : {len(found_devices)}", Colors.CYAN)
+        else:
+            if macOS_Enum.ping_ip(network_cidr):
+                mac = macOS_Enum.get_mac(network_cidr)
                 if mac and macOS_Enum.is_apple_mac(mac):
-                    Colors.print_colored(f"[FOUND] Apple device found - IP: {ip}, MAC: {mac}\n", Colors.GREEN)
-                    macOS_Enum.parser_data(ip)
+                    Colors.print_colored(f"[FOUND] Apple device found - IP: {network_cidr}, MAC: {mac}\n", Colors.GREEN)
+                    macOS_Enum.parser_data(network_cidr)
                     Colors.print_colored(f"[INFO] 10 seconds to review the information\n", Colors.GREEN)
                     time.sleep(10)
-                    found_devices.append((str(ip), mac))
-        if not found_devices:
-            Colors.print_colored("[RESULT] Apple device not found.", Colors.CYAN)
-        else:
-            Colors.print_colored(f"[RESULT] Total number of Apple devices found : {len(found_devices)}", Colors.CYAN)
-        return found_devices
+                    found_devices.append((str(network_cidr), mac))
+            if not found_devices:
+                Colors.print_colored("[RESULT] Apple device not found.", Colors.CYAN)
+            else:
+                Colors.print_colored(f"[RESULT] Total number of Apple devices found : {len(found_devices)}", Colors.CYAN)
+        
 
 class Apple_iPhone_Enum:
     def find_awdl_interface():
