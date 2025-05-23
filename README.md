@@ -19,6 +19,8 @@ It identifies Apple devices by detecting MAC addresses using their OUI (Organiza
 - 🌐 Customizable network range for scanning  
 - 🛠️ Command-line interface with argparse support  
 - 🛡️ Robust error handling and informative logging  
+- 🚨 Detect devices potentially vulnerable to **CVE-2025-24132** (AirPlay version exposure)  
+
 
 ## 🛠️ Installation
 
