@@ -9,6 +9,8 @@
 **AirDiscover** is a Python-based tool designed to discover Apple devices (macOS and iPhone) on your local network and gather detailed information about them.  
 It identifies Apple devices by detecting MAC addresses using their OUI (Organizationally Unique Identifier) and retrieves IP addresses along with system details.
 
+> ⚠️ *Note: Software only works on macOS operating system.*
+
 ## ✨ Features
 
 - 🔍 Scan for macOS and iPhone devices on the network  
