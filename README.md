@@ -58,6 +58,12 @@ python3 main.py -i iphone
 python3 main.py -i macos -m 192.168.1.0/24
 ```
 
+* 💻 Scan for macOS devices in a specified network address:
+
+```bash
+python3 main.py -i macos -m 192.168.1.42
+```
+
 > ⚠️ *Note: The network range parameter (`-m`) is only used in `macos` mode.*
 
 
