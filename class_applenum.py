@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from biplist import readPlistFromString
+from class_exploit import CVE_2025_24132
 import requests
 import subprocess
 import ipaddress
@@ -36,14 +37,11 @@ class Main:
 
                 🌐 AirDiscover - Developed by Ali Can Gönüllü
        🔗 LinkedIn: https://www.linkedin.com/in/alicangonullu/
-
+              
+Disclaimer : This program is for educational and informational purposes only. It is not intended to encourage or support any illegal or unethical activity, including hacking, cyber-attacks, or unauthorized access to computer systems, networks or data in any way.
+              
 """)
-import requests
-import subprocess
-import re
-import ipaddress
-import time
-from biplist import readPlistFromString
+
 
 class macOS_Enum:
     # Apple OUI listesi (ilk 3 byte)
@@ -127,6 +125,7 @@ class macOS_Enum:
             Colors.print_colored(f"[PARSED] {ip}: --- Vulnerabilities ---", Colors.RED)
             if tuple(int(x) for x in data.get('sourceVersion').split('.'))  < tuple(int(x) for x in "860.7.1".split('.')):
                 Colors.print_colored(f"[VULNERABLE] {ip}: Potentially AirPlay RCE (CVE-2025-24132) Detected (AirPlay Version : {data.get('sourceVersion')})", Colors.RED)
+                CVE_2025_24132.exploit_24132()
             else:
                 Colors.print_colored(f"[SECURE] {ip}: AirPlay RCE (CVE-2025-24132) Not Found. System Update! (AirPlay Version : {data.get('sourceVersion')})", Colors.GREEN)
         except Exception as e:
@@ -170,7 +169,7 @@ class macOS_Enum:
     def scan_network(network_cidr):
         Main.print_banner()  # Eğer Main sınıfın varsa burayı açabilirsin
         found_devices = []
-        if network_cidr in "/":
+        if "/" in network_cidr:
             network = ipaddress.ip_network(network_cidr, strict=False)
             Colors.print_colored(f"[START] Network scanning begins: {network_cidr}", Colors.CYAN)
             for ip in network.hosts():
