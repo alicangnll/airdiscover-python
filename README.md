@@ -11,6 +11,10 @@ It identifies Apple devices by detecting MAC addresses using their OUI (Organiza
 
 > ⚠️ *Note: Software only works on macOS operating system.*
 
+## ⚠️ Disclaimer
+
+The information provided in this blog post is intended for educational and informational purposes only. It is not intended to encourage or promote any illegal or unethical activities, including hacking, cyberattacks, or any form of unauthorized access to computer systems, networks, or data. 
+
 ## ✨ Features
 
 - 🔍 Scan for macOS and iPhone devices on the network  
