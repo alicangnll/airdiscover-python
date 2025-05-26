@@ -13,7 +13,7 @@ It identifies Apple devices by detecting MAC addresses using their OUI (Organiza
 
 ## ⚠️ Disclaimer
 
-The information provided in this blog post is intended for educational and informational purposes only. It is not intended to encourage or promote any illegal or unethical activities, including hacking, cyberattacks, or any form of unauthorized access to computer systems, networks, or data. 
+This program is for educational and informational purposes only. It is not intended to encourage or support any illegal or unethical activity, including hacking, cyber-attacks, or unauthorized access to computer systems, networks or data in any way.
 
 ## ✨ Features
 
