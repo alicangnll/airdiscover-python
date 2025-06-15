@@ -15,6 +15,22 @@ It identifies Apple devices by detecting MAC addresses using their OUI (Organiza
 
 This program is for educational and informational purposes only. It is not intended to encourage or support any illegal or unethical activity, including hacking, cyber-attacks, or unauthorized access to computer systems, networks or data in any way.
 
+## 📡 About Apple Wireless Direct Link (AWDL) on macOS
+
+Apple Wireless Direct Link (AWDL) is a proprietary low-latency, high-speed ad-hoc Wi-Fi protocol developed by Apple. It underpins several Apple services such as AirDrop, AirPlay, and Sidecar, enabling peer-to-peer communication between Apple devices without the need for a traditional Wi-Fi network.
+
+On macOS, AWDL operates on a separate virtual network interface (`awdl0`) and dynamically switches Wi-Fi channels and MAC addresses to maintain privacy and efficiency. This interface is not always active; it becomes visible when certain Apple services are invoked (e.g., AirDrop or AirPlay browsing is initiated).
+
+In the context of `airdiscover-python`, AWDL is leveraged for passively discovering nearby Apple devices that announce themselves via multicast DNS (mDNS) over the AWDL interface. Since AWDL frames are not typically forwarded by access points, this discovery is only possible when the scanning host is directly connected to the same channel and capable of parsing traffic from the `awdl0` interface.
+
+**Technical Notes:**
+
+* On macOS, `awdl0` can be monitored using tools like `tcpdump`, `Wireshark`, or `scapy`, provided proper permissions are granted.
+* Capturing from `awdl0` may require elevated privileges or SIP (System Integrity Protection) adjustments.
+* AWDL traffic uses IPv6 and mDNS (UDP port 5353) heavily to announce services (e.g., `_airplay._tcp.local`, `_raop._tcp.local`).
+
+> 🧪 If you're using `airdiscover-python` on macOS, ensure your system supports monitoring the `awdl0` interface and has the necessary permissions to read AWDL traffic.
+
 ## ✨ Features
 
 - 🔍 Scan for macOS and iPhone devices on the network  
