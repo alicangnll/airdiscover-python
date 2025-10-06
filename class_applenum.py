@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from biplist import readPlistFromString
-from class_exploit import CVE_2025_24132
 import requests
 import subprocess
 import ipaddress
