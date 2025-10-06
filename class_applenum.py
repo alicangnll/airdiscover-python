@@ -125,12 +125,6 @@ class macOS_Enum:
             Colors.print_colored(f"[PARSED] {ip}: --- Vulnerabilities ---", Colors.RED)
             if tuple(int(x) for x in data.get('sourceVersion').split('.'))  < tuple(int(x) for x in "860.7.1".split('.')):
                 Colors.print_colored(f"[VULNERABLE] {ip}: Potentially AirPlay RCE (CVE-2025-24132) Detected (AirPlay Version : {data.get('sourceVersion')})", Colors.RED)
-                user_input = input("Exploit detected. Do you confirm exploitation? (I will only send the 'whoami' command) [yes/no]: ")
-                if user_input.strip().lower() == "yes":
-                    CVE_2025_24132.exploit_24132()
-                else:
-                    print("Exploitation aborted by user.")
-                    pass
             else:
                 Colors.print_colored(f"[SECURE] {ip}: AirPlay RCE (CVE-2025-24132) Not Found. System Update! (AirPlay Version : {data.get('sourceVersion')})", Colors.GREEN)
         except Exception as e:
